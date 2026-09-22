@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { siteData } from '../data/siteData';
-import { Camera, X, ChevronLeft, ChevronRight, Maximize2, Tag, Calendar, Sparkles } from 'lucide-react';
+import { Camera, X, ChevronLeft, ChevronRight, Maximize2, Tag, Calendar, Layers } from 'lucide-react';
 
 export default function GallerySection() {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -146,7 +146,7 @@ export default function GallerySection() {
         <div className="mt-14 p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-[#0d2446]/60 via-[#071326]/80 to-[#0d2446]/60 border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-[#f05423]/15 border border-[#f05423]/30 flex items-center justify-center shrink-0">
-              <Sparkles className="w-6 h-6 text-[#f05423]" />
+              <Layers className="w-6 h-6 text-[#f05423]" />
             </div>
             <div>
               <h4 className="text-white font-bold text-base sm:text-lg">Archived Media & High-Resolution Telemetry</h4>

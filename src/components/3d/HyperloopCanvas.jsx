@@ -8,40 +8,49 @@ import { VacuumTube } from './VacuumTube';
 function SceneLighting({ speedMode }) {
   return (
     <>
-      <ambientLight intensity={0.65} />
+      <ambientLight intensity={0.9} />
+      {/* Primary Key Light directly on Pod */}
       <directionalLight
-        position={[8, 12, 10]}
-        intensity={1.8}
+        position={[6, 10, 8]}
+        intensity={2.4}
         castShadow
         shadow-mapSize={[1024, 1024]}
         color="#ffffff"
       />
+      {/* Front Nose Key Light for Crisp Aerodynamic Highlights */}
+      <directionalLight
+        position={[0, 2, 7]}
+        intensity={1.8}
+        color="#ffffff"
+      />
       {/* Front rim orange key light */}
       <directionalLight
-        position={[-8, 4, 8]}
-        intensity={1.4}
+        position={[-7, 3, 5]}
+        intensity={2.0}
         color="#f05423"
       />
       {/* Rear cool blue rim fill */}
       <directionalLight
-        position={[6, -4, -10]}
-        intensity={1.2}
+        position={[5, -2, -8]}
+        intensity={1.6}
         color="#00d2ff"
       />
+      {/* Underside Maglev Glow Point Light */}
+      <pointLight
+        position={[0, -0.6, 0.5]}
+        intensity={3.5}
+        color="#f05423"
+        distance={5}
+      />
+      {/* Top Focused Spotlight */}
+      <spotLight
+        position={[0, 7, 3]}
+        angle={0.7}
+        penumbra={0.5}
+        intensity={3.0}
+        color="#ffffff"
+      />
     </>
-  );
-}
-
-function CanvasFallback() {
-  return (
-    <div className="absolute inset-0 flex items-center justify-center bg-[#030811] text-[#f05423]">
-      <div className="flex flex-col items-center gap-3">
-        <div className="w-12 h-12 border-4 border-[#f05423]/20 border-t-[#f05423] rounded-full animate-spin" />
-        <span className="font-mono text-sm tracking-widest uppercase text-slate-300">
-          Initializing 3D Telemetry...
-        </span>
-      </div>
-    </div>
   );
 }
 
@@ -49,15 +58,15 @@ export function HyperloopCanvas({ speedMode = 'cruise', activeHotspot, onSelectH
   const controlsRef = useRef();
 
   return (
-    <div className="relative w-full h-full min-h-[480px] select-none">
+    <div className="relative w-full h-full min-h-[500px] select-none">
       <Canvas
-        camera={{ position: [5.5, 2.2, 5.8], fov: 42 }}
+        camera={{ position: [3.2, 1.2, 3.8], fov: 36 }}
         dpr={[1, Math.min(typeof window !== 'undefined' ? window.devicePixelRatio : 1, 2)]}
         gl={{
           antialias: true,
           powerPreference: 'high-performance',
           toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.1,
+          toneMappingExposure: 1.25,
         }}
         className="w-full h-full cursor-grab active:cursor-grabbing"
       >
@@ -67,8 +76,8 @@ export function HyperloopCanvas({ speedMode = 'cruise', activeHotspot, onSelectH
         <Suspense fallback={null}>
           <Float
             speed={speedMode === 'stationary' ? 1.5 : 0}
-            rotationIntensity={speedMode === 'stationary' ? 0.2 : 0}
-            floatIntensity={speedMode === 'stationary' ? 0.3 : 0}
+            rotationIntensity={speedMode === 'stationary' ? 0.15 : 0}
+            floatIntensity={speedMode === 'stationary' ? 0.25 : 0}
           >
             <VegapodModel
               speedMode={speedMode}
@@ -84,9 +93,9 @@ export function HyperloopCanvas({ speedMode = 'cruise', activeHotspot, onSelectH
               ref={controlsRef}
               enablePan={false}
               enableZoom={true}
-              minDistance={3.2}
-              maxDistance={14.0}
-              maxPolarAngle={Math.PI / 2 + 0.1}
+              minDistance={2.5}
+              maxDistance={9.0}
+              maxPolarAngle={Math.PI / 2 + 0.15}
               minPolarAngle={Math.PI / 6}
               dampingFactor={0.06}
               rotateSpeed={0.8}

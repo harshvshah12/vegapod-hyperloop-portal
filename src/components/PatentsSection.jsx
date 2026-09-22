@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FileText, CheckCircle2, User, Sparkles, ShieldCheck } from 'lucide-react';
+import { FileText, CheckCircle2, User, ShieldCheck } from 'lucide-react';
 import { siteData } from '../data/siteData';
 
 export function PatentsSection() {

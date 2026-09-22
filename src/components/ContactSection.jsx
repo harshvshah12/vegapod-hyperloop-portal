@@ -4,7 +4,7 @@ import { siteData } from '../data/siteData';
 import confetti from 'canvas-confetti';
 import { 
   Mail, MapPin, Phone, Send, CheckCircle2, ArrowRight, 
-  ExternalLink, Sparkles, Building2, UserPlus, Globe 
+  ExternalLink, Building2, UserPlus, Globe, ShieldCheck 
 } from 'lucide-react';
 
 export default function ContactSection() {
@@ -80,7 +80,7 @@ export default function ContactSection() {
               </div>
 
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#f05423] text-white text-[11px] font-bold uppercase tracking-wider mb-4">
-                <Sparkles className="w-3.5 h-3.5" /> Official Recruitment
+                <ShieldCheck className="w-3.5 h-3.5" /> Official Recruitment
               </div>
 
               <h3 className="text-xl sm:text-2xl font-black text-white">

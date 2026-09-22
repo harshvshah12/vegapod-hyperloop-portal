@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, RotateCw, Gauge, Zap, Wind, Shield, ChevronRight, Award, Compass, ExternalLink } from 'lucide-react';
+import { Gauge, Zap, Wind, Shield, ChevronRight, Play, RotateCw, X, Radio, ArrowRight } from 'lucide-react';
 import { HyperloopCanvas } from './3d/HyperloopCanvas';
 import { siteData } from '../data/siteData';
 
-export function HeroSection({ onNavigate, onOpenVideoModal }) {
+export function HeroSection() {
   const [speedMode, setSpeedMode] = useState('cruise'); // 'stationary' | 'cruise' | 'supersonic'
   const [activeHotspot, setActiveHotspot] = useState(null);
 
@@ -12,11 +13,12 @@ export function HeroSection({ onNavigate, onOpenVideoModal }) {
     stationary: {
       speed: '0',
       unit: 'KM/H',
-      label: 'DIAGNOSTIC DOCK',
-      desc: 'Static levitation scrutiny mode with full 360° orbit inspection.',
+      label: 'DIAGNOSTIC SCRUTINY',
+      desc: 'Static levitation analysis with full 360° orbital scrutiny.',
       accel: '0.0 m/s²',
-      power: 'Standby (1.2 kW)',
-      gap: '15.0 mm'
+      power: 'Standby 1.2 kW',
+      gap: '15.0 mm',
+      regime: 'Vacuum Dock'
     },
     cruise: {
       speed: '250',
@@ -25,270 +27,305 @@ export function HeroSection({ onNavigate, onOpenVideoModal }) {
       desc: 'Nominal linear induction acceleration inside continuous sub-atmospheric guide tube.',
       accel: '1.2 G',
       power: '42.5 kW',
-      gap: '14.2 mm'
+      gap: '14.2 mm',
+      regime: 'Nominal Velocity'
     },
     supersonic: {
       speed: '1,200',
       unit: 'KM/H',
       label: 'SUPERSONIC FLIGHT',
-      desc: 'Sub-scale hyperloop transit velocity near sonic barrier in near-vacuum envelope.',
+      desc: 'Near-vacuum aerodynamic trajectory approaching sonic envelope under peak LIM excitation.',
       accel: '2.8 G',
       power: '85.0 kW',
-      gap: '16.5 mm'
+      gap: '16.5 mm',
+      regime: 'Near Sonic Barrier'
     }
   };
 
-  const hotspotDetails = {
+  const hotspotData = {
     aero: {
-      title: 'Aerodynamic Aeroshell',
-      subtitle: 'Carbon Fiber Reinforced Polymer Fairing',
-      desc: 'Optimized via high-fidelity Computational Fluid Dynamics (CFD) for ultra-low drag coefficient in low pressure environments.',
-      stat: 'Cd < 0.18'
+      title: 'CFD Aerodynamic Fairings',
+      subtitle: 'Project Vajra Carbon-Composite Shell',
+      desc: 'Engineered for sub-atmospheric aerodynamics with optimized stagnation pressure dispersion and minimal drag coefficient at transonic velocities.',
+      stat: 'Transonic Cd 0.12'
     },
     maglev: {
-      title: 'Electromagnetic Levitation',
-      subtitle: 'Halbach Array & Static Levitation Rig',
-      desc: 'Generates non-contact repulsive levitation clearance of 15 mm over conductive sub-tracks, eliminating wheel friction.',
+      title: 'Electrodynamic Levitation Skids',
+      subtitle: 'Halbach Permanent Magnet Array',
+      desc: 'Passive and active suspension generating 15mm contactless levitation clearance over conductive track rails, eliminating mechanical rolling friction.',
       stat: '15mm Airgap'
     },
     propulsion: {
       title: 'Linear Induction Motor (LIM)',
       subtitle: 'Double-Sided Stator with Quasi-Z Inverter',
-      desc: 'First student-made LIM in India providing instantaneous contactless electromagnetic acceleration up to 85 kW.',
+      desc: 'First student-developed Linear Induction Motor in India delivering up to 85 kW pulsed electromagnetic thrust directly onto reaction plates.',
       stat: '85 kW Pulse'
     },
     chassis: {
       title: 'Modular Multi-Plate Chassis',
-      subtitle: 'Published Patent (INA 2026)',
-      desc: 'Revolutionary structural framework allowing modular component reconfiguration, high torsional stiffness, and rapid maintenance.',
-      stat: 'Patented 2026'
+      subtitle: 'Published Indian Patent (INA 2026)',
+      desc: 'Patented high-strength structural framework allowing modular component layout, high torsional rigidity, and rapid maintenance access.',
+      stat: 'Patent Published'
     }
   };
 
   const current = speedData[speedMode];
 
   return (
-    <section id="hero" className="relative min-h-screen w-full pt-20 flex flex-col justify-between overflow-hidden bg-[#030811]">
-      {/* 3D WebGL Canvas Layer */}
-      <div className="absolute inset-0 z-0">
-        <HyperloopCanvas
-          speedMode={speedMode}
-          activeHotspot={activeHotspot}
-          onSelectHotspot={(hotspot) => setActiveHotspot(activeHotspot === hotspot ? null : hotspot)}
-        />
-        {/* Subtle vignette gradients */}
-        <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#030811] via-transparent to-[#030811]/60" />
-        <div className="absolute inset-x-0 bottom-0 h-40 pointer-events-none bg-gradient-to-t from-[#030811] to-transparent" />
-      </div>
+    <section className="relative w-full bg-[#030811] text-white pt-24 pb-16 overflow-hidden">
+      {/* Subtle Aerospace Coordinate Grid */}
+      <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
 
-      {/* Main Overlay UI Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-6 sm:pt-10 pointer-events-none">
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
-          
-          {/* Left Column: Mission Badge & Headlines */}
-          <div className="max-w-2xl pointer-events-auto">
-            {/* Top Qualification Pill */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0d2446]/80 border border-[#f05423]/40 backdrop-blur-md mb-4 shadow-[0_0_15px_rgba(240,84,35,0.25)]"
-            >
-              <span className="w-2 h-2 rounded-full bg-[#f05423] animate-pulse" />
-              <span className="text-xs font-mono font-bold tracking-wider text-white">
-                EUROPEAN HYPERLOOP WEEK & SPACEX ALUMNI
-              </span>
-            </motion.div>
-
-            {/* Main Title */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="text-4xl sm:text-6xl lg:text-7xl font-display font-black tracking-tight leading-[1.05] text-white"
-            >
-              BUILDING THE <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f05423] via-[#ff6e3d] to-[#00d2ff]">
-                FUTURE OF TRANSIT
-              </span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="mt-4 text-base sm:text-lg text-slate-300 font-sans leading-relaxed max-w-xl"
-            >
-              India's premier university hyperloop initiative incubated at <strong>MIT-WPU</strong>. Crafting sub-scale supersonic pods with electromagnetic levitation, linear induction propulsion, and vacuum telemetry.
-            </motion.p>
-
-            {/* Call to Actions */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="mt-8 flex flex-wrap items-center gap-4"
-            >
-              <button
-                onClick={() => onNavigate('subsystems')}
-                className="px-6 py-3.5 rounded-full bg-[#f05423] hover:bg-[#ff6e3d] text-white font-mono text-sm font-bold uppercase tracking-wider flex items-center gap-2 shadow-[0_0_25px_rgba(240,84,35,0.4)] transition-all hover:scale-105 active:scale-95 cursor-pointer"
-              >
-                <span>Explore Pod Engineering</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
-
-              <button
-                onClick={() => onNavigate('achievements')}
-                className="px-6 py-3.5 rounded-full bg-[#0d2446]/80 hover:bg-[#0e2950] text-white border border-[#00d2ff]/40 hover:border-[#00d2ff] font-mono text-sm font-bold uppercase tracking-wider backdrop-blur-md transition-all cursor-pointer flex items-center gap-2"
-              >
-                <Award className="w-4 h-4 text-[#00d2ff]" />
-                <span>Our Achievements</span>
-              </button>
-
-              <button
-                onClick={onOpenVideoModal}
-                className="px-4 py-3.5 rounded-full bg-slate-900/70 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 font-mono text-xs uppercase tracking-wider backdrop-blur-md transition-all cursor-pointer flex items-center gap-2"
-              >
-                <Play className="w-3.5 h-3.5 text-[#f05423] fill-[#f05423]" />
-                <span>Watch Demo</span>
-              </button>
-            </motion.div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Top Mission Header: Clean, Unobstructed, Framing the Pod */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-white/10">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0d2446]/80 border border-[#f05423]/40 text-white text-xs font-mono font-bold tracking-wider mb-3">
+              <span className="w-2 h-2 rounded-full bg-[#f05423] animate-ping" />
+              MIT-WPU PUNE • EUROPEAN HYPERLOOP WEEK & SPACEX ALUMNI
+            </div>
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-black tracking-tight text-white">
+              VEGAPOD <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f05423] to-[#ff7a45]">HYPERLOOP</span>
+            </h1>
+            <p className="mt-2 text-slate-400 text-sm sm:text-base max-w-2xl font-sans">
+              Autonomous sub-scale high-speed vacuum mobility pod engineered by 40+ multidisciplinary engineers at MIT-WPU Pune.
+            </p>
           </div>
 
-          {/* Right Column: Dynamic Telemetry HUD & Mode Switcher */}
-          <div className="w-full lg:w-80 flex flex-col gap-4 pointer-events-auto">
-            {/* Speed Gauge & Live Diagnostics Card */}
-            <div className="glass-card rounded-2xl p-5 border border-[#f05423]/30 shadow-2xl relative overflow-hidden">
-              <div className="flex justify-between items-start mb-2">
-                <span className="text-[10px] font-mono tracking-widest uppercase text-[#00d2ff]">
-                  REAL-TIME TELEMETRY
-                </span>
-                <span className="flex items-center gap-1 text-[10px] font-mono text-[#f05423] font-bold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#f05423] animate-ping" />
-                  LIVE SIM
-                </span>
-              </div>
+          {/* Quick Aerospace Benchmarks */}
+          <div className="flex items-center gap-4 sm:gap-6 text-xs font-mono shrink-0">
+            <div className="p-3 rounded-xl bg-[#071326] border border-white/10 text-right">
+              <span className="text-slate-400 block text-[10px] uppercase">Tube Atmosphere</span>
+              <span className="text-[#00d2ff] font-bold text-sm">0.001 atm</span>
+            </div>
+            <div className="p-3 rounded-xl bg-[#071326] border border-white/10 text-right">
+              <span className="text-slate-400 block text-[10px] uppercase">LIM Propulsion</span>
+              <span className="text-[#f05423] font-bold text-sm">85 kW Pulse</span>
+            </div>
+            <div className="p-3 rounded-xl bg-[#071326] border border-white/10 text-right">
+              <span className="text-slate-400 block text-[10px] uppercase">Magnetic Gap</span>
+              <span className="text-emerald-400 font-bold text-sm">15.0 mm</span>
+            </div>
+          </div>
+        </div>
 
-              {/* Huge Speed Display */}
-              <div className="flex items-baseline gap-2 my-2">
-                <span className="font-display font-black text-5xl sm:text-6xl text-white tracking-tight">
-                  {current.speed}
-                </span>
-                <span className="font-mono text-sm font-bold text-[#f05423]">
-                  {current.unit}
-                </span>
-              </div>
-
-              <div className="text-xs font-mono text-slate-300 border-b border-slate-800 pb-3 mb-3">
-                <span className="text-[#00d2ff] font-semibold">{current.label}:</span> {current.desc}
-              </div>
-
-              {/* Telemetry Micro Grid */}
-              <div className="grid grid-cols-3 gap-2 text-center">
-                <div className="bg-[#061325]/70 rounded-lg p-2 border border-slate-800">
-                  <div className="text-[9px] font-mono text-slate-400">ACCEL</div>
-                  <div className="text-xs font-mono font-bold text-white">{current.accel}</div>
-                </div>
-                <div className="bg-[#061325]/70 rounded-lg p-2 border border-slate-800">
-                  <div className="text-[9px] font-mono text-slate-400">THRUST</div>
-                  <div className="text-xs font-mono font-bold text-white">{current.power}</div>
-                </div>
-                <div className="bg-[#061325]/70 rounded-lg p-2 border border-slate-800">
-                  <div className="text-[9px] font-mono text-slate-400">AIRGAP</div>
-                  <div className="text-xs font-mono font-bold text-[#00d2ff]">{current.gap}</div>
-                </div>
-              </div>
+        {/* 3D AEROSPACE HERO STAGE (UNOBSTRUCTED CENTERPIECE) */}
+        <div className="relative mt-6 rounded-3xl bg-gradient-to-b from-[#071326] via-[#030811] to-[#071326] border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden">
+          
+          {/* Top Stage Cockpit Toolbar */}
+          <div className="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-black/60 backdrop-blur-md border border-white/10 text-xs font-mono text-slate-300">
+              <RotateCw className="w-3.5 h-3.5 text-[#f05423] animate-spin" style={{ animationDuration: '6s' }} />
+              <span>3D INTERACTIVE POD • ORBIT & ZOOM ENABLED</span>
             </div>
 
-            {/* Velocity Mode Selector */}
-            <div className="glass-card rounded-2xl p-3 border border-slate-800 flex flex-col gap-1.5">
-              <span className="text-[10px] font-mono tracking-widest uppercase text-slate-400 px-2">
-                VELOCITY REGIME
-              </span>
-              <div className="grid grid-cols-3 gap-1">
-                {[
-                  { id: 'stationary', label: '0 KM/H', sub: 'Inspect' },
-                  { id: 'cruise', label: '250 KM/H', sub: 'Cruise' },
-                  { id: 'supersonic', label: '1200 KM/H', sub: 'Supersonic' }
-                ].map((mode) => (
-                  <button
-                    key={mode.id}
-                    onClick={() => setSpeedMode(mode.id)}
-                    className={`p-2 rounded-xl text-center transition-all cursor-pointer ${
-                      speedMode === mode.id
-                        ? 'bg-gradient-to-b from-[#f05423] to-[#c83c0e] text-white shadow-[0_0_15px_rgba(240,84,35,0.4)]'
-                        : 'bg-[#061325]/60 hover:bg-[#0d2446] text-slate-400 hover:text-white'
-                    }`}
-                  >
-                    <div className="font-mono text-xs font-bold leading-tight">{mode.label}</div>
-                    <div className="text-[9px] font-sans opacity-80">{mode.sub}</div>
-                  </button>
-                ))}
-              </div>
+            <div className="pointer-events-auto hidden sm:flex items-center gap-1 p-1 rounded-xl bg-black/70 backdrop-blur-md border border-white/15 text-xs font-mono">
+              <span className="text-slate-400 text-[10px] uppercase px-2 font-bold">INSPECT:</span>
+              <button
+                onClick={() => setActiveHotspot(activeHotspot === 'aero' ? null : 'aero')}
+                className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
+                  activeHotspot === 'aero' ? 'bg-[#f05423] text-white shadow-md' : 'text-slate-300 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                AERO
+              </button>
+              <button
+                onClick={() => setActiveHotspot(activeHotspot === 'maglev' ? null : 'maglev')}
+                className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
+                  activeHotspot === 'maglev' ? 'bg-[#00d2ff] text-black shadow-md' : 'text-slate-300 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                MAGLEV
+              </button>
+              <button
+                onClick={() => setActiveHotspot(activeHotspot === 'propulsion' ? null : 'propulsion')}
+                className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
+                  activeHotspot === 'propulsion' ? 'bg-[#f05423] text-white shadow-md' : 'text-slate-300 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                LIM MOTOR
+              </button>
+              <button
+                onClick={() => setActiveHotspot(activeHotspot === 'chassis' ? null : 'chassis')}
+                className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
+                  activeHotspot === 'chassis' ? 'bg-[#00d2ff] text-black shadow-md' : 'text-slate-300 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                PATENT
+              </button>
             </div>
+          </div>
 
-            {/* Hotspot Info Popup if clicked */}
-            <AnimatePresence>
-              {activeHotspot && hotspotDetails[activeHotspot] && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  className="glass-card rounded-2xl p-4 border border-[#00d2ff]/40 bg-[#0d2446]/90 shadow-2xl"
+          {/* 3D WebGL Canvas Viewport - Full View with No Heavy Text Overlays */}
+          <div className="w-full h-[520px] sm:h-[600px] lg:h-[660px] relative">
+            <HyperloopCanvas
+              speedMode={speedMode}
+              activeHotspot={activeHotspot}
+              onSelectHotspot={(hotspot) => setActiveHotspot(activeHotspot === hotspot ? null : hotspot)}
+            />
+
+            {/* Bottom floating telemetry & speed controller dock */}
+            <div className="absolute bottom-6 inset-x-4 sm:inset-x-8 z-20 flex flex-col sm:flex-row items-center justify-between gap-4 pointer-events-none">
+              
+              {/* Speed Mode Selector Buttons */}
+              <div className="pointer-events-auto flex items-center gap-1.5 p-1.5 rounded-2xl bg-black/70 backdrop-blur-xl border border-white/15 shadow-2xl">
+                <button
+                  onClick={() => setSpeedMode('stationary')}
+                  className={`px-4 py-2.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer ${
+                    speedMode === 'stationary'
+                      ? 'bg-white/20 text-white shadow-md border border-white/20'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
                 >
-                  <div className="flex justify-between items-start">
-                    <span className="text-[10px] font-mono tracking-wider uppercase text-[#f05423] font-bold">
+                  0 KM/H
+                  <span className="block text-[10px] text-slate-400 font-normal">Static Dock</span>
+                </button>
+
+                <button
+                  onClick={() => setSpeedMode('cruise')}
+                  className={`px-4 py-2.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer ${
+                    speedMode === 'cruise'
+                      ? 'bg-gradient-to-r from-[#f05423] to-[#ff7a45] text-white shadow-lg shadow-[#f05423]/40 border border-[#f05423]'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  250 KM/H
+                  <span className="block text-[10px] text-slate-200 font-normal">EHW Cruise</span>
+                </button>
+
+                <button
+                  onClick={() => setSpeedMode('supersonic')}
+                  className={`px-4 py-2.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer ${
+                    speedMode === 'supersonic'
+                      ? 'bg-gradient-to-r from-[#00d2ff] to-[#0099ff] text-black shadow-lg shadow-[#00d2ff]/40 border border-[#00d2ff]'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  1,200 KM/H
+                  <span className="block text-[10px] text-slate-800 font-normal font-bold">Supersonic</span>
+                </button>
+              </div>
+
+              {/* Real-time Dynamic Telemetry Readout Box */}
+              <div className="pointer-events-auto px-5 py-3 rounded-2xl bg-black/70 backdrop-blur-xl border border-white/15 shadow-2xl flex items-center gap-6 font-mono text-xs">
+                <div>
+                  <span className="text-[10px] text-slate-400 uppercase block">Velocity</span>
+                  <span className="text-xl sm:text-2xl font-black text-white">{current.speed} <span className="text-xs text-[#f05423] font-bold">{current.unit}</span></span>
+                </div>
+                <div className="h-8 w-[1px] bg-white/10" />
+                <div>
+                  <span className="text-[10px] text-slate-400 uppercase block">Acceleration</span>
+                  <span className="text-sm sm:text-base font-bold text-white">{current.accel}</span>
+                </div>
+                <div className="h-8 w-[1px] bg-white/10" />
+                <div>
+                  <span className="text-[10px] text-slate-400 uppercase block">LIM Power</span>
+                  <span className="text-sm sm:text-base font-bold text-cyan-400">{current.power}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Hotspot Drawer (Floats on Top Right Without Blocking the Pod) */}
+            <AnimatePresence>
+              {activeHotspot && hotspotData[activeHotspot] && (
+                <motion.div
+                  initial={{ opacity: 0, x: 40 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 40 }}
+                  className="absolute top-16 right-4 sm:right-6 z-30 w-80 sm:w-96 p-5 rounded-2xl bg-[#071326]/95 backdrop-blur-xl border border-[#f05423]/50 shadow-2xl"
+                >
+                  <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                    <span className="text-[11px] font-mono text-[#f05423] font-bold uppercase tracking-wider">
                       INSPECTED SUBSYSTEM
                     </span>
                     <button
                       onClick={() => setActiveHotspot(null)}
-                      className="text-xs text-slate-400 hover:text-white"
+                      className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
                     >
-                      ✕
+                      <X className="w-4 h-4" />
                     </button>
                   </div>
-                  <h4 className="font-display font-bold text-base text-white mt-1">
-                    {hotspotDetails[activeHotspot].title}
-                  </h4>
-                  <p className="text-[11px] font-mono text-[#00d2ff] mb-2">
-                    {hotspotDetails[activeHotspot].subtitle}
+
+                  <h3 className="mt-3 text-base font-bold text-white">
+                    {hotspotData[activeHotspot].title}
+                  </h3>
+                  <span className="text-xs font-mono text-cyan-400 block mt-0.5">
+                    {hotspotData[activeHotspot].subtitle}
+                  </span>
+
+                  <p className="mt-2.5 text-xs text-slate-300 leading-relaxed">
+                    {hotspotData[activeHotspot].desc}
                   </p>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    {hotspotDetails[activeHotspot].desc}
-                  </p>
-                  <div className="mt-3 pt-2 border-t border-slate-700/60 flex justify-between items-center text-xs font-mono">
-                    <span className="text-slate-400">Benchmark:</span>
-                    <span className="text-[#f05423] font-bold">{hotspotDetails[activeHotspot].stat}</span>
+
+                  <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+                    <span className="px-2 py-0.5 rounded bg-[#f05423]/20 border border-[#f05423]/40 text-[#f05423] text-[11px] font-mono font-bold">
+                      {hotspotData[activeHotspot].stat}
+                    </span>
+                    <Link
+                      to="/subsystems"
+                      className="text-xs font-semibold text-white hover:text-[#f05423] flex items-center gap-1"
+                    >
+                      View Specs <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
         </div>
-      </div>
 
-      {/* Bottom KPI Marquee Strip */}
-      <div className="relative z-10 w-full bg-[#061325]/90 border-t border-slate-800/80 backdrop-blur-md py-4 mt-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            <div className="border-r border-slate-800/60 last:border-0">
-              <div className="font-display font-black text-xl sm:text-2xl text-white">40+</div>
-              <div className="text-[11px] font-mono text-slate-400 tracking-wider uppercase">Engineers at MIT-WPU</div>
+        {/* Quick Route Portal Navigation Bento */}
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Link
+            to="/subsystems"
+            className="group p-5 rounded-2xl bg-[#071326]/60 border border-white/10 hover:border-[#f05423]/50 hover:bg-[#071326] transition-all"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono text-[#f05423] font-bold">01 / ENGINEERING</span>
+              <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-white group-hover:translate-x-1 transition-all" />
             </div>
-            <div className="border-r border-slate-800/60 last:border-0">
-              <div className="font-display font-black text-xl sm:text-2xl text-[#f05423]">TOP 2 GLOBAL</div>
-              <div className="text-[11px] font-mono text-slate-400 tracking-wider uppercase">Mech / Elec Subsystems</div>
+            <h4 className="mt-2 text-white font-bold text-base">6 Core Subsystems</h4>
+            <p className="mt-1 text-slate-400 text-xs">Linear Induction Motor, Halbach Levitation, High-Voltage inverters & Thermal.</p>
+          </Link>
+
+          <Link
+            to="/achievements"
+            className="group p-5 rounded-2xl bg-[#071326]/60 border border-white/10 hover:border-[#f05423]/50 hover:bg-[#071326] transition-all"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono text-[#f05423] font-bold">02 / COMPETITION</span>
+              <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-white group-hover:translate-x-1 transition-all" />
             </div>
-            <div className="border-r border-slate-800/60 last:border-0">
-              <div className="font-display font-black text-xl sm:text-2xl text-[#00d2ff]">3 PATENTS</div>
-              <div className="text-[11px] font-mono text-slate-400 tracking-wider uppercase">Chassis & Maglev IP</div>
+            <h4 className="mt-2 text-white font-bold text-base">2019-2026 Timeline</h4>
+            <p className="mt-1 text-slate-400 text-xs">SpaceX Hyperloop Pod Competition to European Hyperloop Week podiums.</p>
+          </Link>
+
+          <Link
+            to="/patents"
+            className="group p-5 rounded-2xl bg-[#071326]/60 border border-white/10 hover:border-[#f05423]/50 hover:bg-[#071326] transition-all"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono text-[#f05423] font-bold">03 / INTELLECTUAL PROPERTY</span>
+              <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-white group-hover:translate-x-1 transition-all" />
             </div>
-            <div>
-              <div className="font-display font-black text-xl sm:text-2xl text-white">4 CONSECUTIVE</div>
-              <div className="text-[11px] font-mono text-slate-400 tracking-wider uppercase">Years Demo in Europe</div>
+            <h4 className="mt-2 text-white font-bold text-base">3 Published Patents</h4>
+            <p className="mt-1 text-slate-400 text-xs">Modular chassis, beam emergency braking, and electrodynamic levitation device.</p>
+          </Link>
+
+          <Link
+            to="/members"
+            className="group p-5 rounded-2xl bg-[#071326]/60 border border-white/10 hover:border-[#f05423]/50 hover:bg-[#071326] transition-all"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono text-[#f05423] font-bold">04 / FLIGHT CONTINGENT</span>
+              <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-white group-hover:translate-x-1 transition-all" />
             </div>
-          </div>
+            <h4 className="mt-2 text-white font-bold text-base">Team & Alumni Directory</h4>
+            <p className="mt-1 text-slate-400 text-xs">23 active engineers, captains, subsystem heads, and multi-year alumni network.</p>
+          </Link>
         </div>
+
       </div>
     </section>
   );

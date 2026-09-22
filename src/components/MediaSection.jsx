@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { siteData } from '../data/siteData';
-import { Youtube, Play, ExternalLink, Video, Compass, Sparkles, X, Share2 } from 'lucide-react';
+import { Youtube, Play, ExternalLink, Video, Compass, Radio, X, Share2 } from 'lucide-react';
 
 export default function MediaSection() {
   const [activeVideo, setActiveVideo] = useState(null);
@@ -177,7 +177,7 @@ export default function MediaSection() {
               className="pt-4 md:pt-0 md:pl-6 group hover:opacity-90 transition-opacity"
             >
               <div className="w-10 h-10 mx-auto rounded-xl bg-pink-600/20 border border-pink-500/40 flex items-center justify-center text-pink-400 mb-3 group-hover:scale-110 transition-transform">
-                <Sparkles className="w-5 h-5" />
+                <Radio className="w-5 h-5" />
               </div>
               <h4 className="text-white font-bold text-base">Instagram Feed</h4>
               <p className="text-gray-400 text-xs mt-1">Behind-the-scenes stories, reels & campus tests</p>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Linkedin, GraduationCap, Sparkles, ExternalLink } from 'lucide-react';
+import { Users, Linkedin, GraduationCap, ExternalLink } from 'lucide-react';
 import { siteData } from '../data/siteData';
 
 export function MembersSection() {
@@ -22,14 +22,14 @@ export function MembersSection() {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0d2446] border border-[#f05423]/40 text-[#f05423] font-mono text-xs uppercase tracking-wider mb-4">
             <Users className="w-3.5 h-3.5" />
-            <span>THE CREW BEHIND THE POD</span>
+            <span>ENGINEERING CONTINGENT</span>
           </div>
           <h2 className="text-4xl sm:text-5xl font-display font-black tracking-tight">
-            MEET THE TEAM THAT MAKES <br />
-            <span className="text-[#f05423]">THE MAGIC HAPPEN</span>
+            MULTIDISCIPLINARY FLIGHT <br />
+            <span className="text-[#f05423]">RESEARCH CORPS</span>
           </h2>
           <p className="mt-4 text-slate-400 font-sans text-base sm:text-lg">
-            Proud multidisciplinary students at Dr. Vishwanath Karad MIT World Peace University dedicating thousands of hours to engineering innovation.
+            Multidisciplinary student engineers and researchers at MIT World Peace University dedicating thousands of hours to advanced hyperloop innovation.
           </p>
 
           {/* Active Members vs. Alumni Toggle */}

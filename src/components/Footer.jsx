@@ -1,26 +1,24 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { siteData } from '../data/siteData';
-import { 
-  ArrowUp, Youtube, ExternalLink, Globe, Sparkles, 
-  ShieldCheck, Cpu, ChevronRight 
-} from 'lucide-react';
+import { ArrowUp, ExternalLink, Globe, ShieldCheck, Cpu, ChevronRight } from 'lucide-react';
 
-export default function Footer({ onNavigate }) {
+export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const navLinks = [
-    { name: 'Manifesto', id: 'about' },
-    { name: 'Subsystems', id: 'subsystems' },
-    { name: 'Achievements', id: 'achievements' },
-    { name: 'Patents', id: 'patents' },
-    { name: 'Flight Team', id: 'members' },
-    { name: 'Advisors', id: 'mentors' },
-    { name: 'Sponsors', id: 'sponsors' },
-    { name: 'Gallery', id: 'gallery' },
-    { name: 'Media', id: 'media' },
-    { name: 'Contact', id: 'contact' },
+    { name: 'About & Manifesto', path: '/about' },
+    { name: 'Subsystems', path: '/subsystems' },
+    { name: 'Achievements', path: '/achievements' },
+    { name: 'Patents & IP', path: '/patents' },
+    { name: 'Flight Team', path: '/members' },
+    { name: 'Faculty Advisors', path: '/mentors' },
+    { name: 'Corporate Sponsors', path: '/sponsors' },
+    { name: 'Photo Gallery', path: '/gallery' },
+    { name: 'Media & Videos', path: '/media' },
+    { name: 'Contact & Recruitment', path: '/contact' },
   ];
 
   return (
@@ -35,12 +33,14 @@ export default function Footer({ onNavigate }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-white/5">
           {/* Brand & Mission (5 cols) */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="flex items-center gap-3">
-              <img
-                src={siteData.brand.logoSvg}
-                alt="Vegapod Hyperloop"
-                className="h-10 w-auto filter drop-shadow-[0_0_12px_rgba(240,84,35,0.4)]"
-              />
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="relative w-10 h-10 rounded-xl bg-[#0d2446]/60 border border-[#f05423]/50 p-1 flex items-center justify-center">
+                <img
+                  src={siteData.brand.logoSvg}
+                  alt="Vegapod Hyperloop"
+                  className="w-full h-full object-contain filter drop-shadow-[0_0_8px_rgba(240,84,35,0.4)]"
+                />
+              </div>
               <div>
                 <span className="text-white font-black text-xl tracking-wider block">
                   VEGAPOD
@@ -49,7 +49,7 @@ export default function Footer({ onNavigate }) {
                   Hyperloop Pioneer
                 </span>
               </div>
-            </div>
+            </Link>
 
             <p className="text-gray-400 text-xs sm:text-sm leading-relaxed max-w-md">
               {siteData.brand.tagline}. Student-led hyperloop research contingent incubated at 
@@ -73,16 +73,16 @@ export default function Footer({ onNavigate }) {
             <h4 className="text-white font-bold text-sm tracking-wider uppercase">
               Mission Modules
             </h4>
-            <ul className="grid grid-cols-2 gap-2 text-xs">
+            <ul className="grid grid-cols-1 gap-2 text-xs">
               {navLinks.map((item) => (
-                <li key={item.id}>
-                  <button
-                    onClick={() => onNavigate ? onNavigate(item.id) : document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })}
-                    className="hover:text-[#f05423] transition-colors flex items-center gap-1 group py-1 text-left"
+                <li key={item.path}>
+                  <Link
+                    to={item.path}
+                    className="hover:text-[#f05423] transition-colors flex items-center gap-1 group py-0.5 text-left"
                   >
                     <ChevronRight className="w-3 h-3 text-[#f05423] opacity-0 group-hover:opacity-100 transition-opacity -ml-1 group-hover:ml-0" />
                     <span>{item.name}</span>
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -132,7 +132,7 @@ export default function Footer({ onNavigate }) {
           <div className="flex items-center gap-4">
             <button
               onClick={scrollToTop}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-[#f05423] text-gray-400 hover:text-white transition-all duration-200"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-[#f05423] text-gray-400 hover:text-white transition-all duration-200 cursor-pointer"
             >
               <span>Back to Apex</span>
               <ArrowUp className="w-3.5 h-3.5" />
@@ -143,3 +143,5 @@ export default function Footer({ onNavigate }) {
     </footer>
   );
 }
+
+export { Footer };

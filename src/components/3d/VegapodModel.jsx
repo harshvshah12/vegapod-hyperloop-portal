@@ -1,6 +1,5 @@
 import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 
 export function VegapodModel({ speedMode = 'cruise', activeHotspot, onSelectHotspot }) {
@@ -198,73 +197,41 @@ export function VegapodModel({ speedMode = 'cruise', activeHotspot, onSelectHots
         <pointLight position={[0, 0, -0.3]} color={speedMode === 'supersonic' ? '#f05423' : '#00d2ff'} intensity={speedMode === 'supersonic' ? 4 : 2} distance={4} />
       </group>
 
-      {/* 9. Interactive Engineering Hotspots */}
-      {/* Hotspot 1: Aerodynamics / Aeroshell */}
-      <group position={[0, 0.95, 1.8]}>
-        <Html distanceFactor={10} position={[0, 0, 0]} center>
-          <button
-            onClick={() => onSelectHotspot && onSelectHotspot('aero')}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-bold transition-all shadow-lg backdrop-blur-md cursor-pointer select-none ${
-              activeHotspot === 'aero'
-                ? 'bg-[#f05423] text-white ring-2 ring-white scale-110 shadow-orange-500/50'
-                : 'bg-[#0d2446]/80 text-[#00d2ff] hover:bg-[#f05423] hover:text-white border border-[#00d2ff]/40'
-            }`}
-          >
-            <span className="w-2 h-2 rounded-full bg-[#f05423] animate-ping" />
-            <span>AERODYNAMICS</span>
-          </button>
-        </Html>
+      {/* 9. Interactive 3D Beacon Hotspot Pins (Completely Unobstructed 3D Pod) */}
+      {/* Beacon 1: Aerodynamics / Aeroshell */}
+      <group position={[0, 0.65, 2.0]} onClick={(e) => { e.stopPropagation(); onSelectHotspot && onSelectHotspot('aero'); }}>
+        <mesh>
+          <sphereGeometry args={[0.07, 16, 16]} />
+          <meshBasicMaterial color={activeHotspot === 'aero' ? '#ffffff' : '#f05423'} />
+        </mesh>
+        <pointLight color="#f05423" intensity={activeHotspot === 'aero' ? 3 : 1} distance={1.5} />
       </group>
 
-      {/* Hotspot 2: Maglev / Halbach Levitation */}
-      <group position={[1.15, -0.65, 0.8]}>
-        <Html distanceFactor={10} position={[0, 0, 0]} center>
-          <button
-            onClick={() => onSelectHotspot && onSelectHotspot('maglev')}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-bold transition-all shadow-lg backdrop-blur-md cursor-pointer select-none ${
-              activeHotspot === 'maglev'
-                ? 'bg-[#f05423] text-white ring-2 ring-white scale-110 shadow-orange-500/50'
-                : 'bg-[#0d2446]/80 text-[#00d2ff] hover:bg-[#f05423] hover:text-white border border-[#00d2ff]/40'
-            }`}
-          >
-            <span className="w-2 h-2 rounded-full bg-[#00d2ff] animate-ping" />
-            <span>MAGLEV</span>
-          </button>
-        </Html>
+      {/* Beacon 2: Maglev / Halbach Levitation */}
+      <group position={[0.95, -0.4, 0.6]} onClick={(e) => { e.stopPropagation(); onSelectHotspot && onSelectHotspot('maglev'); }}>
+        <mesh>
+          <sphereGeometry args={[0.07, 16, 16]} />
+          <meshBasicMaterial color={activeHotspot === 'maglev' ? '#ffffff' : '#00d2ff'} />
+        </mesh>
+        <pointLight color="#00d2ff" intensity={activeHotspot === 'maglev' ? 3 : 1} distance={1.5} />
       </group>
 
-      {/* Hotspot 3: Linear Induction Motor (LIM) */}
-      <group position={[-1.15, -0.85, -0.2]}>
-        <Html distanceFactor={10} position={[0, 0, 0]} center>
-          <button
-            onClick={() => onSelectHotspot && onSelectHotspot('propulsion')}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-bold transition-all shadow-lg backdrop-blur-md cursor-pointer select-none ${
-              activeHotspot === 'propulsion'
-                ? 'bg-[#f05423] text-white ring-2 ring-white scale-110 shadow-orange-500/50'
-                : 'bg-[#0d2446]/80 text-[#00d2ff] hover:bg-[#f05423] hover:text-white border border-[#00d2ff]/40'
-            }`}
-          >
-            <span className="w-2 h-2 rounded-full bg-[#f05423] animate-ping" />
-            <span>LIM PROPULSION</span>
-          </button>
-        </Html>
+      {/* Beacon 3: Linear Induction Motor (LIM) */}
+      <group position={[-0.95, -0.4, -0.2]} onClick={(e) => { e.stopPropagation(); onSelectHotspot && onSelectHotspot('propulsion'); }}>
+        <mesh>
+          <sphereGeometry args={[0.07, 16, 16]} />
+          <meshBasicMaterial color={activeHotspot === 'propulsion' ? '#ffffff' : '#f05423'} />
+        </mesh>
+        <pointLight color="#f05423" intensity={activeHotspot === 'propulsion' ? 3 : 1} distance={1.5} />
       </group>
 
-      {/* Hotspot 4: Modular Chassis Framework (Patent 2026) */}
-      <group position={[0, -0.3, -1.4]}>
-        <Html distanceFactor={10} position={[0, 0, 0]} center>
-          <button
-            onClick={() => onSelectHotspot && onSelectHotspot('chassis')}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-bold transition-all shadow-lg backdrop-blur-md cursor-pointer select-none ${
-              activeHotspot === 'chassis'
-                ? 'bg-[#f05423] text-white ring-2 ring-white scale-110 shadow-orange-500/50'
-                : 'bg-[#0d2446]/80 text-[#00d2ff] hover:bg-[#f05423] hover:text-white border border-[#00d2ff]/40'
-            }`}
-          >
-            <span className="w-2 h-2 rounded-full bg-[#00d2ff] animate-ping" />
-            <span>CHASSIS PATENT</span>
-          </button>
-        </Html>
+      {/* Beacon 4: Modular Chassis Framework (Patent 2026) */}
+      <group position={[0, -0.15, -1.0]} onClick={(e) => { e.stopPropagation(); onSelectHotspot && onSelectHotspot('chassis'); }}>
+        <mesh>
+          <sphereGeometry args={[0.07, 16, 16]} />
+          <meshBasicMaterial color={activeHotspot === 'chassis' ? '#ffffff' : '#00d2ff'} />
+        </mesh>
+        <pointLight color="#00d2ff" intensity={activeHotspot === 'chassis' ? 3 : 1} distance={1.5} />
       </group>
     </group>
   );

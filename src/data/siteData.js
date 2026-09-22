@@ -12,7 +12,8 @@ export const siteData = {
       void: "#030811",
       cyan: "#00d2ff"
     },
-    logoSvg: "/brand/vegapod-logo.svg",
+    logoSvg: "/brand/vegapod-v-logo.svg",
+    logoFull: "/brand/vegapod-full-white.svg",
     vajraAeroImg: "/brand/vajra-aero.png",
     recruitmentFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdNj1YhJpKeDugA_SiWeJE2NLmh1HagUyupn0WRLdJKZkrjVA/viewform?usp=publish-editor",
     socials: {

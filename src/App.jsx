@@ -1,22 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
-import { HeroSection } from './components/HeroSection';
-import { AboutSection } from './components/AboutSection';
-import { SubsystemsSection } from './components/SubsystemsSection';
-import { AchievementsSection } from './components/AchievementsSection';
-import { PatentsSection } from './components/PatentsSection';
-import { MembersSection } from './components/MembersSection';
-import { MentorsSection } from './components/MentorsSection';
-import { SponsorsSection } from './components/SponsorsSection';
-import GallerySection from './components/GallerySection';
-import MediaSection from './components/MediaSection';
-import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
+
+// Multi-Page Routes
+import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
+import SubsystemsPage from './pages/SubsystemsPage';
+import AchievementsPage from './pages/AchievementsPage';
+import PatentsPage from './pages/PatentsPage';
+import MembersPage from './pages/MembersPage';
+import MentorsPage from './pages/MentorsPage';
+import SponsorsPage from './pages/SponsorsPage';
+import GalleryPage from './pages/GalleryPage';
+import MediaPage from './pages/MediaPage';
+import ContactPage from './pages/ContactPage';
 
 export default function App() {
-  const [activeSection, setActiveSection] = useState('hero');
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  
+
   // Web Audio API Synthesizer Refs
   const audioCtxRef = useRef(null);
   const osc1Ref = useRef(null);
@@ -81,79 +84,41 @@ export default function App() {
     }
   };
 
-  // Section observer to update active nav link
-  useEffect(() => {
-    const sectionIds = [
-      'hero', 'about', 'subsystems', 'achievements',
-      'patents', 'members', 'mentors', 'sponsors',
-      'gallery', 'media', 'contact'
-    ];
-
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 250;
-      for (let i = sectionIds.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sectionIds[i]);
-        if (el && el.offsetTop <= scrollPosition) {
-          setActiveSection(sectionIds[i]);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleNavigate = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-[#030811] text-white selection:bg-[#f05423] selection:text-white font-sans relative overflow-x-hidden">
-      {/* Background Cyber Grid Accent */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:4rem_4rem] z-0" />
+    <Router>
+      <ScrollToTop />
+      <div className="min-h-screen bg-[#030811] text-white selection:bg-[#f05423] selection:text-white font-sans flex flex-col justify-between overflow-x-hidden">
+        {/* Aerospace Cyber Grid Background */}
+        <div className="fixed inset-0 pointer-events-none opacity-[0.025] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:4rem_4rem] z-0" />
 
-      {/* Global Navbar */}
-      <Navbar
-        activeSection={activeSection}
-        onNavigate={handleNavigate}
-        isAudioPlaying={isAudioPlaying}
-        onToggleAudio={toggleAudio}
-      />
-
-      {/* Main Page Content */}
-      <main className="relative z-10">
-        <HeroSection
-          onNavigate={handleNavigate}
-          onOpenVideoModal={() => handleNavigate('media')}
+        {/* Global Multi-Page Navbar */}
+        <Navbar
+          isAudioPlaying={isAudioPlaying}
+          onToggleAudio={toggleAudio}
         />
 
-        <AboutSection />
+        {/* Multi-Page Routes */}
+        <main className="relative z-10 flex-grow">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/subsystems" element={<SubsystemsPage />} />
+            <Route path="/achievements" element={<AchievementsPage />} />
+            <Route path="/patents" element={<PatentsPage />} />
+            <Route path="/members" element={<MembersPage />} />
+            <Route path="/mentors" element={<MentorsPage />} />
+            <Route path="/sponsors" element={<SponsorsPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/media" element={<MediaPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            {/* Fallback to Home */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
 
-        <SubsystemsSection />
-
-        <AchievementsSection />
-
-        <PatentsSection />
-
-        <MembersSection />
-
-        <MentorsSection />
-
-        <SponsorsSection onNavigate={handleNavigate} />
-
-        <GallerySection />
-
-        <MediaSection />
-
-        <ContactSection />
-      </main>
-
-      {/* Global Footer */}
-      <Footer onNavigate={handleNavigate} />
-    </div>
+        {/* Global Footer */}
+        <Footer />
+      </div>
+    </Router>
   );
 }

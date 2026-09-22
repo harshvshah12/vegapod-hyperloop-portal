@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="240 180 470 360" fill="none">
+  <defs>
+    <linearGradient id="vGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F1F5F9"/>
+    </linearGradient>
+    <linearGradient id="orbitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7A45"/>
+      <stop offset="100%" stop-color="#F05423"/>
+    </linearGradient>
+    <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#F05423" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <!-- Lower Orbit Ring -->
+  <path fill="url(#orbitGrad)" d="M426.67,504.72c-70.67,10.1-120.56-10.34-139.39-54.36-20.83-48.69,8.45-110.38,76.93-155.93l8.42,23.31c-52.85,38.07-81.44,82.99-65.49,120.26,14.31,33.46,57.19,52.24,112.71,46.3l6.82,20.4Z"/>
+  <!-- Central White V -->
+  <polygon fill="url(#vGrad)" points="584.69 217.25 497.26 516.39 445.77 517.4 357.3 217.25 406.09 216.54 470.11 440.13 535.67 217.24 584.69 217.25"/>
+  <!-- Upper Orbit Ring -->
+  <path fill="url(#orbitGrad)" d="M588.76,257.62c31.73,5.56,53.26,20.45,61.39,43.82,17.67,50.82-26.85,110.87-121.96,162.22l-7.24,28.44c108.48-46.41,179.07-137.43,152.1-200.46-12.4-28.98-39.05-47.48-78.29-54.51l-5.99,20.48Z"/>
+</svg>
