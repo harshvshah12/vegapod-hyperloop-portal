@@ -81,17 +81,36 @@ npm run preview
 
 ---
 
-## 🚢 One-Click Deployment
+## 🚢 One-Click Vercel Deployment
 
-This project includes pre-configured `vercel.json` for zero-configuration deployment to [Vercel](https://vercel.com/):
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fharshvshah12%2Fvegapod-hyperloop-portal)
 
+This project is pre-configured with `vercel.json` and `.npmrc` for seamless, 100% automated deployment to [Vercel](https://vercel.com/).
+
+### Method 1: Deploy from Vercel Dashboard (Recommended)
+1. Go to [vercel.com/new](https://vercel.com/new).
+2. Connect your GitHub account and select **`harshvshah12/vegapod-hyperloop-portal`**.
+3. Vercel will automatically detect:
+   - **Framework Preset**: `Vite`
+   - **Root Directory**: `./`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+4. Click **Deploy**. Your site will be live on a global Edge CDN URL within ~60 seconds!
+
+### Method 2: Deploy via Vercel CLI
 ```bash
-npx vercel --prod
+# Install Vercel CLI globally
+npm i -g vercel
+
+# Deploy directly to production
+vercel --prod
 ```
 
-Or deploy to [Netlify](https://www.netlify.com/):
-- **Build command**: `npm run build`
-- **Publish directory**: `dist`
+### Key Vercel Optimizations Included
+- **SPA Client-Side Routing**: Complete rewrite configuration in `vercel.json` ensuring all 11 sub-routes (`/about`, `/subsystems`, `/achievements`, `/patents`, `/members`, `/mentors`, `/sponsors`, `/gallery`, `/media`, `/contact`) work on direct URL visits and hard refreshes without 404 errors.
+- **Peer Dependency Guard (`.npmrc`)**: Configured with `legacy-peer-deps=true` so automated Vercel CI installs never fail on React 19 / Three.js peer dependencies.
+- **Edge Cache Optimization**: 1-year immutable caching on bundled static assets (`/assets/*`).
+- **Security Headers**: Production headers configured (`X-Content-Type-Options`, `X-Frame-Options`, `X-XSS-Protection`, `Referrer-Policy`).
 
 ---
 
